@@ -24,6 +24,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -108,7 +109,7 @@ public class AuthController {
 
         return ResponseEntity.created(location).body(new ApiResponse(200,true, "User registered successfully"));
     }
-
+    @Secured("ROLE_ADMIN")
     @GetMapping("/test")
     public List<User> getUsers() {
         return userRepository.findAll();

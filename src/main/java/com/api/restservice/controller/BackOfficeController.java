@@ -5,13 +5,20 @@
  */
 package com.api.restservice.controller;
 
+import com.api.restservice.model.Brand;
 import com.api.restservice.model.Classe;
-import com.api.restservice.model.Vehicule;
+import com.api.restservice.model.Place;
+import com.api.restservice.model.Trip;
+import com.api.restservice.model.Vehicle;
 import com.api.restservice.playload.ApiResponse;
+import com.api.restservice.repository.BrandRepository;
 import com.api.restservice.repository.ClasseRepository;
+import com.api.restservice.repository.PlaceRepository;
+import com.api.restservice.repository.TripRepository;
 import com.api.restservice.repository.VehiculeRepository;
 import java.net.URI;
 import java.util.List;
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -37,10 +44,16 @@ public class BackOfficeController {
     ClasseRepository classeRepository;
     @Autowired
     VehiculeRepository vehiculeRepository;
+    @Autowired
+    PlaceRepository placeRepository;
+    @Autowired
+    BrandRepository brandRepository;
+    @Autowired
+    TripRepository tripRepository;
     
     @Secured("ROLE_ADMIN")
     @GetMapping("/vehicule")
-    public List<Vehicule> getUsers() {
+    public List<Vehicle> getVehicles() {
         return vehiculeRepository.findAll();
     } 
     @Secured("ROLE_ADMIN")
@@ -49,17 +62,42 @@ public class BackOfficeController {
         return classeRepository.findAll();
     } 
     @Secured("ROLE_ADMIN")
+    @GetMapping("/brands")
+    public List<Brand> getBrands() {
+        return brandRepository.findAll();
+    } 
+    @Secured("ROLE_ADMIN")
     @PostMapping("/vehicule/save")
-    public ResponseEntity<?> newCar(@Valid @RequestBody Vehicule vehicule) {
-        if(vehiculeRepository.existsByImmatriculation(vehicule.getImmatriculation())) {
+    @Transactional
+    public ResponseEntity<?> newCar(@Valid @RequestBody Vehicle vehicule) {
+        if(vehiculeRepository.existsByRegistration(vehicule.getRegistration())) {
             return new ResponseEntity(new ApiResponse(400,false, "number taken!"),
                     HttpStatus.BAD_REQUEST);
         }
-        Vehicule result = vehiculeRepository.save(vehicule);
+        Vehicle result = vehiculeRepository.save(vehicule);
+       
+        for(int i = 0 ; i < result.getPlace_number() ; i++){
+            Place item = new Place(i,result.getId());
+            placeRepository.save(item);
+        }
         URI location = ServletUriComponentsBuilder
                 .fromCurrentContextPath().path("/api/backoffice/vehicules/{id}")
                 .buildAndExpand(result.getId()).toUri();
 
         return ResponseEntity.created(location).body(new ApiResponse(200,true, "car registered successfully"));
+    } 
+    @Secured("ROLE_ADMIN")
+    @PostMapping("/trip/save")
+    @Transactional
+    public ResponseEntity<?> newTrip(@Valid @RequestBody Trip trip) {
+       
+        Trip result = tripRepository.save(trip);
+       
+       
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentContextPath().path("/api/backoffice/trips/{id}")
+                .buildAndExpand(result.getId()).toUri();
+
+        return ResponseEntity.created(location).body(new ApiResponse(200,true, "trip registered successfully"));
     } 
 }

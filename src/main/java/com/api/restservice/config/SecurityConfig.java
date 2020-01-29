@@ -98,7 +98,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                     .permitAll()
                 .antMatchers(HttpMethod.GET, "/api/auth/**", "/api/users/**","/api/backoffice/**")
                     .permitAll()
-                
                 .anyRequest()
                         .authenticated();
         // Add our custom JWT security filter

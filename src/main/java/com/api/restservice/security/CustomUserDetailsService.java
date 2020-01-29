@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
  * @author mariano
  */
 @Service
+
 public class CustomUserDetailsService implements UserDetailsService {
 
     @Autowired
@@ -26,6 +27,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     @Transactional
+//   
     public UserDetails loadUserByUsername(String phoneOrEmail)
             throws UsernameNotFoundException {
         // Let people login with either phone or email

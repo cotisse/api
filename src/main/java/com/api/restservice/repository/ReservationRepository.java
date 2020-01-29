@@ -5,13 +5,13 @@
  */
 package com.api.restservice.repository;
 
-import com.api.restservice.model.Vehicle;
+import com.api.restservice.model.Reservation;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  *
  * @author mariano
  */
-public interface VehiculeRepository extends JpaRepository<Vehicle,Long>{
-    Boolean existsByRegistration(String registration);
+public interface ReservationRepository extends JpaRepository<Reservation, Long> {
+    Boolean existsById_tripAndId_place(Long idTrip, Long idPlace);
 }
