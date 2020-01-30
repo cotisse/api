@@ -5,6 +5,7 @@
  */
 package com.api.restservice.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -26,15 +27,25 @@ public class Vehicle {
     private Long id;
     
     @NotNull(message="please choose a class")
-    private int id_classe;
+    @Column(name="id_classe")
+    int idClasse;
+
+    public int getIdClasse() {
+        return idClasse;
+    }
+
+    public void setIdClasse(int idClasse) {
+        this.idClasse = idClasse;
+    }
     
     @NotNull(message="please choose a brand")
     private int id_brand;
     
-    @Range(max=90)
+    @Range(min = 5,max=90,message="invalid place number")
     private Integer place_number;
     
     @NotNull
+    @Size(min=8, max=9)
     private String registration; 
     
     private String description; 
@@ -54,15 +65,6 @@ public class Vehicle {
     public void setId(Long id) {
         this.id = id;
     }
-
-    public int getId_classe() {
-        return id_classe;
-    }
-
-    public void setId_classe(int id_classe) {
-        this.id_classe = id_classe;
-    }
-
     public int getId_brand() {
         return id_brand;
     }

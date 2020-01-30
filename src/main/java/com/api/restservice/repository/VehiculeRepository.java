@@ -6,6 +6,7 @@
 package com.api.restservice.repository;
 
 import com.api.restservice.model.Vehicle;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -14,4 +15,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface VehiculeRepository extends JpaRepository<Vehicle,Long>{
     Boolean existsByRegistration(String registration);
+    List<Vehicle> findByIdClasse(Long IdClass);
 }

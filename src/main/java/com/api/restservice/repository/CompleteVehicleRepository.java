@@ -5,13 +5,14 @@
  */
 package com.api.restservice.repository;
 
-import com.api.restservice.model.Reservation;
+import com.api.restservice.model.CompleteVehicle;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  *
  * @author mariano
  */
-public interface ReservationRepository extends JpaRepository<Reservation, Long> {
-    Boolean existsByIdTripAndIdPlace(Long idTrip, Long idPlace);
+public interface CompleteVehicleRepository extends JpaRepository<CompleteVehicle, Long>{
+    List<CompleteVehicle> findByIdClasse(Long IdClass);
 }

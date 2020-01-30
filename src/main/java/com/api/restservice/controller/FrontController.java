@@ -37,7 +37,7 @@ public class FrontController {
     @PostMapping("/reservation/save")
     @Transactional
     public ResponseEntity<?> newCar(@Valid @RequestBody Reservation res) {
-        if(reservationRepository.existsById_tripAndId_place(res.getId_trip(),res.getId_place())) {
+         if(reservationRepository.existsByIdTripAndIdPlace(res.getIdTrip(),res.getIdPlace())) {
             return new ResponseEntity(new ApiResponse(400,false, "place taken!"),
                     HttpStatus.BAD_REQUEST);
         }
@@ -49,5 +49,12 @@ public class FrontController {
                 .buildAndExpand(result.getId()).toUri();
 
         return ResponseEntity.created(location).body(new ApiResponse(200,true, "trip registered successfully"));
+    } 
+    @PostMapping("/bill/save")
+    @Transactional
+    public void pay() {
+        
+
+//        return ResponseEntity.created(location).body(new ApiResponse(200,true, " registered successfully"));
     } 
 }

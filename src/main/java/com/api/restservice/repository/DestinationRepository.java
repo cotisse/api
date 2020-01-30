@@ -5,13 +5,13 @@
  */
 package com.api.restservice.repository;
 
-import com.api.restservice.model.Reservation;
+import com.api.restservice.model.Destination;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  *
  * @author mariano
  */
-public interface ReservationRepository extends JpaRepository<Reservation, Long> {
-    Boolean existsByIdTripAndIdPlace(Long idTrip, Long idPlace);
+public interface DestinationRepository extends JpaRepository<Destination,Long>{
+    
 }

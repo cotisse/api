@@ -7,12 +7,16 @@ package com.api.restservice.controller;
 
 import com.api.restservice.model.Brand;
 import com.api.restservice.model.Classe;
+import com.api.restservice.model.CompleteVehicle;
+import com.api.restservice.model.Destination;
 import com.api.restservice.model.Place;
 import com.api.restservice.model.Trip;
 import com.api.restservice.model.Vehicle;
 import com.api.restservice.playload.ApiResponse;
 import com.api.restservice.repository.BrandRepository;
 import com.api.restservice.repository.ClasseRepository;
+import com.api.restservice.repository.CompleteVehicleRepository;
+import com.api.restservice.repository.DestinationRepository;
 import com.api.restservice.repository.PlaceRepository;
 import com.api.restservice.repository.TripRepository;
 import com.api.restservice.repository.VehiculeRepository;
@@ -26,6 +30,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,16 +50,26 @@ public class BackOfficeController {
     @Autowired
     VehiculeRepository vehiculeRepository;
     @Autowired
+    CompleteVehicleRepository completeVehicleRepository;
+    @Autowired
     PlaceRepository placeRepository;
     @Autowired
     BrandRepository brandRepository;
     @Autowired
     TripRepository tripRepository;
+    @Autowired
+    DestinationRepository destinationRepository;
+    
     
     @Secured("ROLE_ADMIN")
     @GetMapping("/vehicule")
     public List<Vehicle> getVehicles() {
         return vehiculeRepository.findAll();
+    } 
+    @Secured("ROLE_ADMIN")
+    @GetMapping("/vehiculeDetails")
+    public List<CompleteVehicle> getVehiclesDetailled() {
+        return completeVehicleRepository.findAll();
     } 
     @Secured("ROLE_ADMIN")
     @GetMapping("/classes")
@@ -65,6 +80,21 @@ public class BackOfficeController {
     @GetMapping("/brands")
     public List<Brand> getBrands() {
         return brandRepository.findAll();
+    } 
+    @Secured("ROLE_ADMIN")
+    @GetMapping("/trips")
+    public List<Trip> getTrips() {
+        return tripRepository.findAll();
+    } 
+    @Secured("ROLE_ADMIN")
+    @GetMapping("/vehicule/{class}")
+    public List<CompleteVehicle> getVehiculeByClass(@PathVariable(value="class") Long classe) {
+        return completeVehicleRepository.findByIdClasse(classe);
+    } 
+    @Secured("ROLE_ADMIN")
+    @GetMapping("/destinations")
+    public List<Destination> getDestination() {
+        return destinationRepository.findAll();
     } 
     @Secured("ROLE_ADMIN")
     @PostMapping("/vehicule/save")
