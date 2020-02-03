@@ -16,6 +16,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,8 +55,10 @@ public class FrontController {
     @PostMapping("/bill/save")
     @Transactional
     public void pay() {
-        
-
 //        return ResponseEntity.created(location).body(new ApiResponse(200,true, " registered successfully"));
+    } 
+    @GetMapping("/reservation/{Mid}")
+    public Reservation myReservation(@PathVariable(value="Mid") Long Mid) {
+        return reservationRepository.findByIdUsers(Mid);
     } 
 }

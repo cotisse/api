@@ -27,7 +27,8 @@ public class Reservation implements Serializable {
     private Long id;
     
     @NotNull
-    Long id_users ;
+    @Column(name="id_users")
+    Long idUsers ;
     
     @NotNull
     Timestamp date ;
@@ -48,13 +49,15 @@ public class Reservation implements Serializable {
         this.id = id;
     }
 
-    public Long getId_users() {
-        return id_users;
+    public Long getIdUsers() {
+        return idUsers;
     }
 
-    public void setId_users(Long id_users) {
-        this.id_users = id_users;
+    public void setIdUsers(Long idUsers) {
+        this.idUsers = idUsers;
     }
+
+    
 
     public Timestamp getDate() {
         return date;

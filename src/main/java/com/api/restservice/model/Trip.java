@@ -20,13 +20,16 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name="trip")
 public class Trip {
-   @Id
-   @GeneratedValue(strategy = GenerationType.IDENTITY)
-   private Long id;
-   
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    
+    
     private Timestamp departure_date;
+    
     @NotNull
     private Long id_vehicle ;
+    
     @NotNull
     private Long id_destination ;
 

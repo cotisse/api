@@ -13,5 +13,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @author mariano
  */
 public interface DestinationRepository extends JpaRepository<Destination,Long>{
-    
 }
