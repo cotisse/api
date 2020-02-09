@@ -11,7 +11,6 @@ import com.api.restservice.security.JwtAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -90,16 +89,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                         "/**/*.jpg",
                         "/**/*.html",
                         "/**/*.css",
-                        "/**/*.js")
+                        "/**/*.js",
+                        "/api/public*")
                     .permitAll()
-                .antMatchers("/api/auth/**","/api/backoffice/**")
-                    .permitAll()
-                .antMatchers("/api/user/checkUsernameAvailability", "/api/user/checkEmailAvailability")
-                    .permitAll()
-                .antMatchers(HttpMethod.GET, "/api/auth/**", "/api/users/**","/api/backoffice/**")
-                    .permitAll()
-                .anyRequest()
-                        .authenticated();
+                .antMatchers("/api/backoffice/**","/api/web/**").authenticated();
         // Add our custom JWT security filter
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 

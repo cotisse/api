@@ -7,8 +7,10 @@ package com.api.restservice.controller;
 
 import com.api.restservice.model.Reservation;
 import com.api.restservice.playload.ApiResponse;
+import com.api.restservice.repository.CityRepository;
 import com.api.restservice.repository.ReservationRepository;
 import java.net.URI;
+import java.util.List;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,11 +36,13 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 public class FrontController {
     @Autowired
     ReservationRepository reservationRepository;
+    @Autowired
+    CityRepository cityRepository;
     
     @Secured("ROLE_USER")
     @PostMapping("/reservation/save")
     @Transactional
-    public ResponseEntity<?> newCar(@Valid @RequestBody Reservation res) {
+    public ResponseEntity<?> reserver(@Valid @RequestBody Reservation res) {
          if(reservationRepository.existsByIdTripAndIdPlace(res.getIdTrip(),res.getIdPlace())) {
             return new ResponseEntity(new ApiResponse(400,false, "place taken!"),
                     HttpStatus.BAD_REQUEST);
@@ -52,13 +56,15 @@ public class FrontController {
 
         return ResponseEntity.created(location).body(new ApiResponse(200,true, "trip registered successfully"));
     } 
+    @Secured("ROLE_USER")
     @PostMapping("/bill/save")
     @Transactional
     public void pay() {
 //        return ResponseEntity.created(location).body(new ApiResponse(200,true, " registered successfully"));
     } 
+    @Secured("ROLE_USER")
     @GetMapping("/reservation/{Mid}")
-    public Reservation myReservation(@PathVariable(value="Mid") Long Mid) {
+    public List<Reservation> myReservation(@PathVariable(value="Mid") Long Mid) {
         return reservationRepository.findByIdUsers(Mid);
-    } 
+    }
 }
