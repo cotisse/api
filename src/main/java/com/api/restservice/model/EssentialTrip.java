@@ -6,9 +6,12 @@
 package com.api.restservice.model;
 
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -49,7 +52,10 @@ public class EssentialTrip {
  private String classe ;
  private double total ;
  private int libre;
-
+ 
+ @OneToMany
+ @JoinColumn(name = "id_trip",insertable = false,updatable = false)
+ private List<PlaceState> places ;
     public Long getId() {
         return id;
     }
@@ -144,6 +150,14 @@ public class EssentialTrip {
 
     public void setDepartureDate(Date departureDate) {
         this.departureDate = departureDate;
+    }
+
+    public List<PlaceState> getPlaces() {
+        return places;
+    }
+
+    public void setPlaces(List<PlaceState> places) {
+        this.places = places;
     }
  
 }

@@ -58,6 +58,9 @@ public class PublicController {
         Long arrd = new Long(arr);
         int n = Integer.parseInt(number);
         List<EssentialTrip> result = essentialTripRepository.find(depd,arrd,begin,end,n);
+//        for(EssentialTrip item : result){
+//            
+//        }
         return result;
     }
 }
