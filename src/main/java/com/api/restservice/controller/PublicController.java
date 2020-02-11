@@ -63,4 +63,9 @@ public class PublicController {
 //        }
         return result;
     }
+    @GetMapping("/test")
+        public List<EssentialTrip> getTrips(){
+            return essentialTripRepository.findAll();
+        }
+    
 }

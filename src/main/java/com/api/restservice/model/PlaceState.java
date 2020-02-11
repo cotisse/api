@@ -9,6 +9,7 @@ package com.api.restservice.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.Table;
 
 /**
@@ -17,31 +18,21 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="places_state")
+//@Cacheable(false)
+@IdClass(CompositeKey.class)
 public class PlaceState {
  @Id
- private String id_place ;
+ public Long id_place ;
+ @Id
  @Column(name="id_trip")
- private String idTrip ;
- private String id_vehicle ;
- private int number ;
- private int int_state ;
- private String label_state ;
- private int etat ;
+ public Long idTrip ;
+ public Long id_vehicle ;
+ public int number ;
+ public int int_state ;
+ public String label_state ;
+ public int etat ;
 
-    public String getId_place() {
-        return id_place;
-    }
-
-    public void setId_place(String id_place) {
-        this.id_place = id_place;
-    }
-    public String getId_vehicle() {
-        return id_vehicle;
-    }
-
-    public void setId_vehicle(String id_vehicle) {
-        this.id_vehicle = id_vehicle;
-    }
+    
 
     public int getNumber() {
         return number;
@@ -75,13 +66,31 @@ public class PlaceState {
         this.etat = etat;
     }
 
-    public String getIdTrip() {
+    public Long getId_place() {
+        return id_place;
+    }
+
+    public void setId_place(Long id_place) {
+        this.id_place = id_place;
+    }
+
+    public Long getIdTrip() {
         return idTrip;
     }
 
-    public void setIdTrip(String idTrip) {
+    public void setIdTrip(Long idTrip) {
         this.idTrip = idTrip;
     }
+
+    public Long getId_vehicle() {
+        return id_vehicle;
+    }
+
+    public void setId_vehicle(Long id_vehicle) {
+        this.id_vehicle = id_vehicle;
+    }
+
+   
  
  
 }

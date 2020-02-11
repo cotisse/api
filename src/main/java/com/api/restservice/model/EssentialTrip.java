@@ -7,6 +7,7 @@ package com.api.restservice.model;
 
 import java.util.Date;
 import java.util.List;
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -22,6 +23,7 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name="trip_essential")
+@Cacheable(false)
 public class EssentialTrip {
  @Id
  private Long id  ;
@@ -55,7 +57,11 @@ public class EssentialTrip {
  
  @OneToMany
  @JoinColumn(name = "id_trip",insertable = false,updatable = false)
+ 
  private List<PlaceState> places ;
+ 
+ 
+ 
     public Long getId() {
         return id;
     }
