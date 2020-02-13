@@ -13,5 +13,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @author mariano
  */
 public interface BillRepository extends JpaRepository<Bill, Long> {
-    
+    boolean existsByIdReservation(Long idRes);
 }

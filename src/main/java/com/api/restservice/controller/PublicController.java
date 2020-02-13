@@ -7,8 +7,11 @@ package com.api.restservice.controller;
 
 import com.api.restservice.model.City;
 import com.api.restservice.model.EssentialTrip;
+import com.api.restservice.model.Reservation;
 import com.api.restservice.repository.CityRepository;
 import com.api.restservice.repository.EssentialTripRepository;
+import com.api.restservice.repository.ReservationRepository;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -32,6 +35,8 @@ public class PublicController {
     CityRepository cityRepository;
     @Autowired
     EssentialTripRepository essentialTripRepository;
+    @Autowired
+    ReservationRepository reservationRepository;
     
     @GetMapping("/cities")
     public List<City> cities() {
@@ -48,19 +53,28 @@ public class PublicController {
 //        return result;
 //    }
      @GetMapping("/trips")
-//    public List<EssentialTrip> getTrips(@PathVariable(name = "depart") String dep,@PathVariable(name ="arrival") String arr,@PathVariable(name = "date") String dated,@PathVariable (name="number")String number) throws ParseException{
     public List<EssentialTrip> getTrips(@RequestParam("depart") String dep,@RequestParam("arrival") String arr,@RequestParam("date")String dated,@RequestParam("number") String number) throws ParseException{
-//        return id;
         String date= dated;
         Date begin = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(date+" 00:00:00");
         Date end = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(date+" 23:59:59");
         Long depd = new Long(dep);
         Long arrd = new Long(arr);
         int n = Integer.parseInt(number);
+        //but effacer les reservations qui ne sont pas payés dans les 5 min
+        //get reservations where etat <10 (non payés)
+        List<Reservation> notPayed = reservationRepository.findByEtatBefore(10);
+        //forEach reservation
+        Timestamp current = new Timestamp(System.currentTimeMillis());
+        for(Reservation item : notPayed){
+        //if currentDate - reservation.date > 5 min => delete reservation
+            long milliseconds  = current.getTime() - item.getDate().getTime();
+            int seconds = (int)milliseconds/1000; 
+            int minutes  = (seconds % 3600) /60;
+            if(minutes > 5){
+                reservationRepository.delete(item);
+            }
+        }
         List<EssentialTrip> result = essentialTripRepository.find(depd,arrd,begin,end,n);
-//        for(EssentialTrip item : result){
-//            
-//        }
         return result;
     }
     @GetMapping("/test")

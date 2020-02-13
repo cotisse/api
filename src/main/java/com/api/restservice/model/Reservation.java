@@ -5,7 +5,6 @@
  */
 package com.api.restservice.model;
 
-import java.io.Serializable;
 import java.sql.Timestamp;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,7 +20,7 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table(name="reservation")
-public class Reservation implements Serializable {
+public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -40,6 +39,15 @@ public class Reservation implements Serializable {
     @Column(name="id_place")
     @NotNull
     Long idPlace;
+    int etat;
+
+    public int getEtat() {
+        return etat;
+    }
+
+    public void setEtat(int etat) {
+        this.etat = etat;
+    }
      
      public Long getId() {
         return id;
